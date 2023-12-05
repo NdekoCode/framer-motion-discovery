@@ -14,7 +14,8 @@ function App() {
           <motion.div
             className="mb-3 box"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1, x: open ? 100 : 0 }}
+            animate={{ opacity: open ? 1 : 0, x: open ? 100 : 0, rotate: open ? 0 : 45 }}
+            whileTap={{scale:1.05}}
           >
             1
           </motion.div>
