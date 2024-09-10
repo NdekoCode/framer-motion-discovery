@@ -9,12 +9,17 @@ export const Btn: FC<PropsWithChildren<{ onClick: () => void }>> = ({
         <motion.button
             className="px-4 py-2 text-sm text-white bg-blue-500 rounded-md"
             animate={{
-                scale: 1.5,
+                scaleX: 2,
+                scaleY: 2,
+                y: "50%"
             }}
             transition={{
-                repeat: 2,
-                ease: "easeInOut",
-                repeatType: 'reverse'
+                delay: 2,
+                repeat: Infinity,
+                delayRepeat: 0.5,
+                repeatType: 'reverse',
+                ease: "easeIn",
+                // type: 'spring'
             }}
             {...props}
         >
