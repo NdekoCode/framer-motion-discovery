@@ -5,7 +5,10 @@ const AppLayout: FC<PropsWithChildren> = ({children}) => {
     return (
         <>
             <Navbar/>
-            {children}
+            <div className="container">
+
+                {children}
+            </div>
         </>
     );
 }

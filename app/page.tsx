@@ -12,7 +12,6 @@ const Home: FC = () => {
     const [open, onToggle] = useToggle();
     return (
         <div className="container px-5 mx-auto mt-10 lg:px-0">
-            <SimpleCard/>
             <h1 className="text-3xl font-bold my-0.5">Hello framer motion</h1>
             <div className="my-20">
                 <div className="flex gap-2 vstack">
