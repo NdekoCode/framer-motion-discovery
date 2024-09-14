@@ -6,13 +6,15 @@ import {FC, PropsWithChildren} from 'react';
 
 import {useToggle} from '@/lib/hooks/useToggle';
 import {Btn} from "@/components/Btn";
+import SimpleCard from "@/components/SimpleCard";
 
-function Home() {
+const Home: FC = () => {
     const [open, onToggle] = useToggle();
     return (
         <div className="container px-5 mx-auto mt-10 lg:px-0">
+            <SimpleCard/>
             <h1 className="text-3xl font-bold my-0.5">Hello framer motion</h1>
-            <div className="mt-20">
+            <div className="my-20">
                 <div className="flex gap-2 vstack">
                     <motion.div
                         className="mb-3 box"
