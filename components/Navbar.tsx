@@ -8,7 +8,7 @@ const Navbar = () => {
                 <Link
                     className="flex-none font-semibold text-xl text-black focus:outline-none focus:opacity-80 dark:text-white"
                     href="/"
-                    aria-label="Brand"
+                    aria-label="Framer-motion"
                 >
                     Framer-motion Discovery
                 </Link>
