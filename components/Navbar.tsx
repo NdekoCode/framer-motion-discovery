@@ -1,5 +1,4 @@
-import React from 'react';
-import Link from "next/link";
+import Link from 'next/link';
 
 const Navbar = () => {
     return (<nav
@@ -37,6 +36,12 @@ const Navbar = () => {
                         href="/contact"
                     >
                         Contact
+                    </Link>
+                    <Link
+                        className="font-medium text-gray-600 hover:text-gray-400 focus:outline-none focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
+                        href="/basic"
+                    >
+                        Tom is loading
                     </Link>
                 </div>
             </div>
