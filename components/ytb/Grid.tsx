@@ -26,8 +26,8 @@ const fadeUp = {
     y: 0,
     transition: {
       duration: 1,
-      ease:"easeOut",
-      delay:0.25
+      ease: "easeOut",
+      delay: 0.25,
     },
   },
 };
@@ -42,8 +42,8 @@ const fadeDown = {
     y: 0,
     transition: {
       duration: 1,
-      ease:"easeOut",
-      delay:0.4
+      ease: "easeOut",
+      delay: 0.4,
     },
   },
 };
@@ -68,14 +68,34 @@ const Grid = () => {
           animate="fade"
         />
         {/* Fade Down */}
-        <motion.div variants={fadeDown}
+        <motion.div
+          variants={fadeDown}
           initial="initial"
-          animate="fade" className="size-20 aspect-square bg-stone-100 rounded-full" />
+          animate="fade"
+          className="size-20 aspect-square bg-stone-100 rounded-full"
+        />
       </motion.div>
+      {/* Keyframes */}
       <motion.div
         variants={gridItemVariant}
         className="bg-slate-800 aspect-square rounded-lg flex justify-center items-center gap-10"
-      ></motion.div>
+      >
+        <motion.div
+          animate={{
+            scale: [1, 2, 2, 1],
+            rotate: [0, 90, 90, 0],
+            borderRadius: ["0%", "50%", "50%", "0%"],
+            transition: {
+              duration: 1,
+              repeat: Infinity,
+              repeatType: "reverse",
+              repeatDelay: 0.25,
+              ease: "easeInOut",
+            },
+          }}
+          className="size-1/3 aspect-square shadow-md bg-rose-400"
+        />
+      </motion.div>
       <motion.div
         variants={gridItemVariant}
         className="bg-slate-800 aspect-square rounded-lg flex justify-center items-center gap-10"
@@ -95,5 +115,4 @@ const Grid = () => {
     </motion.div>
   );
 };
-
 export default Grid;
