@@ -3,8 +3,9 @@
 // import Gestures from '@/components/tom-is-loading/Gestures';
 // import ViewBasedAnimations from '@/components/tom-is-loading/ViewBasedAnimations';
 
+import Grid from '@/components/ytb/Grid';
 
-import ScrollAnimation from '@/components/tom-is-loading/ScrollAnimation';
+// import ScrollAnimation from '@/components/tom-is-loading/ScrollAnimation';
 
 const page = () => {
   return (
@@ -13,7 +14,8 @@ const page = () => {
       {/* <Gestures/> */}
       {/* <AnimationControls /> */}
       {/* <ViewBasedAnimations /> */}
-      <ScrollAnimation />
+      {/* <ScrollAnimation /> */}
+      <Grid />
     </div>
   );
 };
