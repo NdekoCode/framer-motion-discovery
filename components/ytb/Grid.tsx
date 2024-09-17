@@ -1,5 +1,6 @@
 "use client";
-import { motion, useScroll, Variants } from 'framer-motion';
+import { motion, useAnimation, useInView, useScroll, useTransform, Variants } from 'framer-motion';
+import { useEffect, useRef } from 'react';
 
 const gridVariants: Variants = {
   hidden: { opacity: 0 },
@@ -88,15 +89,39 @@ const svgIconVariant = {
     },
   },
 };
+const animateControlsVariants = {
+  hidden: {
+    opacity: 0,
+    y: 75,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+  },
+};
 const Grid = () => {
   const { scrollYProgress: completionProgress } = useScroll();
+  const containerRef = useRef<HTMLElement>(null);
+  const isInView = useInView(containerRef, { once: true });
+  const animateControls = useAnimation();
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end end"],
+  });
+  const paragraphOne = useTransform(scrollYProgress,[0,1],["-100%","0%"]);
+  const paragraphTwo = useTransform(scrollYProgress,[0,1],["100%","0%"]);
+  useEffect(() => {
+    if (isInView) {
+      animateControls.start("visible");
+    }
+  }, [isInView]);
   return (
     <div>
       <motion.div
         variants={gridVariants}
         initial="hidden"
         animate="visible"
-        className="grid grid-cols-3 p-10 gap-10"
+        className="grid grid-cols-3 p-10 gap-10 h-screen"
       >
         {/* Fade Up/Fade Down */}
         <motion.div
@@ -208,22 +233,34 @@ const Grid = () => {
           </motion.svg>
         </motion.div>
       </motion.div>
-      <section className="flex flex-col gap-10 mb-10 text-slate-100 container">
-        <h1 className="text-5xl tracking-wide  text-slate-100 text-center">
+      {/* Scroll animation */}
+      <section
+        ref={containerRef}
+        className="flex flex-col gap-10 mb-10 text-slate-100 container"
+      >
+        <motion.h1
+          animate={animateControls}
+          variants={animateControlsVariants}
+          initial="hidden"
+          transition={{
+            delay: 0.3,
+          }}
+          className="text-5xl tracking-wide  text-slate-100 text-center"
+        >
           Just keep scrolling{" "}
-        </h1>
-        <p className="text-slate-300 font-thin text-4xl w-1/2 mx-auto">
-         Framer dolor sit amet consectetur adipisicing elit. Amet modi
-          nisi quo eaque magni corporis delectus quam maiores veniam expedita in
+        </motion.h1>
+        <motion.p style={{x:paragraphOne}}  className="text-slate-300 font-thin text-4xl w-1/2 mx-auto">
+          Framer dolor sit amet consectetur adipisicing elit. Amet modi nisi quo
+          eaque magni corporis delectus quam maiores veniam expedita in
           architecto ex, tempore distinctio fugit ducimus hic reprehenderit
           exercitationem!
-        </p>
-        <p className="text-slate-300 font-thin text-4xl w-1/2 mx-auto">
+        </motion.p>
+        <motion.p style={{x:paragraphTwo}} className="text-slate-300 font-thin text-4xl w-1/2 mx-auto">
           Motion, ipsum dolor sit amet consectetur adipisicing elit. Amet modi
           nisi quo eaque magni corporis delectus quam maiores veniam expedita in
           architecto ex, tempore distinctio fugit ducimus hic reprehenderit
           exercitationem!
-        </p>
+        </motion.p>
       </section>
     </div>
   );
