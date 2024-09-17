@@ -47,6 +47,16 @@ const fadeDown = {
     },
   },
 };
+const tapAndHover = {
+  hover: {
+    scale: 1.2,
+    backgroundColor: "#d1d5db",
+    color: "#000",
+  },
+  tap: {
+    scale: 0.95,
+  },
+};
 const Grid = () => {
   return (
     <motion.div
@@ -96,14 +106,44 @@ const Grid = () => {
           className="size-1/3 aspect-square shadow-md bg-rose-400"
         />
       </motion.div>
+      {/* Hover and tap */}
       <motion.div
         variants={gridItemVariant}
         className="bg-slate-800 aspect-square rounded-lg flex justify-center items-center gap-10"
-      ></motion.div>
+      >
+        <motion.button
+          variants={tapAndHover}
+          whileHover="hover"
+          whileTap="tap"
+          transition={{
+            bounceDamping: 10,
+            bounceStiffness: 600,
+          }}
+          className="py-4 px-2 rounded-md text-base bg-emerald-600 w-1/2 font-light tracking-wide text-white"
+        >
+          Subscribe
+        </motion.button>
+      </motion.div>
+      {/* Drag and Drop */}
       <motion.div
         variants={gridItemVariant}
         className="bg-slate-800 aspect-square rounded-lg flex justify-center items-center gap-10"
-      ></motion.div>
+      >
+        <motion.div
+          drag
+          dragConstraints={{
+            top: -100,
+            bottom: 100,
+            left: -100,
+            right: 100,
+          }}
+          dragTransition={{
+            bounceStiffness: 600,
+            bounceDamping: 20,
+          }}
+          className="size-1/3 bg-orange-500 rounded-3xl cursor-grab"
+        />
+      </motion.div>
       <motion.div
         variants={gridItemVariant}
         className="bg-slate-800 aspect-square rounded-lg flex justify-center items-center gap-10"
