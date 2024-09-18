@@ -1,19 +1,41 @@
+"use client";
+import { motion, Variants } from 'framer-motion';
 import { SVGProps, useState } from 'react';
 
 import { cn } from '@/lib/utils';
 
+export const stepsVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    scale: 0,
+  },
+  visible: {
+    scale: 1,
+    opacity: 1,
+  },
+};
 export default function Steps() {
   const [step, setStep] = useState(1);
 
   return (
-    <div className="flex min-h-screen items-start bg-gradient-to-br from-slate-700 to-slate-900 pt-40">
+    <div className="flex min-h-[750px] h-full mt-20 items-start bg-gradient-to-br from-slate-700 to-slate-900 pt-40">
       <div className="mx-auto w-full max-w-md rounded-2xl bg-white">
-        <div className="flex justify-between rounded p-8">
+        <motion.div
+          className="flex justify-between rounded p-8"
+          variants={stepsVariants}
+          initial="hidden"
+          animate="visible"
+          transition={{
+            duration: 0.35,
+            staggerChildren: 0.25,
+            type: "spring",
+          }}
+        >
           <Step step={1} currentStep={step} />
           <Step step={2} currentStep={step} />
           <Step step={3} currentStep={step} />
           <Step step={4} currentStep={step} />
-        </div>
+        </motion.div>
         <div className="px-8 pb-8">
           <div>
             <div className="mt-2 h-6 w-40 rounded bg-slate-100" />
@@ -56,15 +78,25 @@ function Step({
       : currentStep < step
       ? "inactive"
       : "complete";
-  const statusClass = {
-    active: "border-blue-500 bg-white text-blue-500",
-    complete: "border-blue-500 bg-blue-500",
-    inactive: "border-slate-200 bg-white text-slate-400",
-  };
   return (
-    <div
+    <motion.div
+      variants={stepsVariants}
+      animate={{
+        backgroundColor:
+          status === "complete" ? "var(--blue-500)" : "var(--white)",
+        borderColor:
+          status === "complete" || status === "active"
+            ? "var(--blue-500)"
+            : "var(--slate-200)",
+            color:
+              status === "complete" || status === "active"
+                ? "var(--blue-500)"
+                : "var(--slate-200)",
+      }}
+      transition={{
+        duration: 0.25,
+      }}
       className={cn(
-        statusClass[status],
         "flex h-10 w-10 items-center justify-center rounded-full border-2 font-semibold"
       )}
     >
@@ -72,10 +104,10 @@ function Step({
         {status === "complete" ? (
           <CheckIcon className="h-6 w-6 text-white" />
         ) : (
-          <span>{step}</span>
+          <motion.span>{step}</motion.span>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -88,7 +120,16 @@ function CheckIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
       stroke="currentColor"
       strokeWidth={3}
     >
-      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+      <motion.path
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{
+          duration: 0.35,
+        }}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M5 13l4 4L19 7"
+      />
     </svg>
   );
 }
