@@ -14,8 +14,8 @@ const Blog = () => {
         <div className="flex flex-col gap-y-10">
             <h1 className="mb-3 text-3xl text-gray-900 font-bold">Our blog</h1>
             <motion.div style={{scale}} transition={{
-                duration:0.5,
-                ease:"easeIn"
+                duration: 0.5,
+                ease: "easeIn"
             }} className="h-10 w-10 rounded bg-gray-500 flex items-center justify-center">
                 hello
             </motion.div>
