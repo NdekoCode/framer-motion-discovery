@@ -67,7 +67,22 @@ export default function Steps() {
     </div>
   );
 }
-
+const stepVariant: Variants = {
+  complete: {
+    backgroundColor: "var(--blue-500)",
+    borderColor: "var(--blue-500)",
+    color: "var(--white)",
+  },
+  active: {
+    borderColor: "var(--blue-500)",
+    color: "var(--blue-500)",
+  },
+  inactive: {
+    backgroundColor: "var(--white)",
+    borderColor: "var(--slate-200)",
+    color: "var(--slate-400)",
+  },
+};
 function Step({
   step,
   currentStep,
@@ -79,34 +94,41 @@ function Step({
       ? "inactive"
       : "complete";
   return (
-    <motion.div
-      variants={stepsVariants}
-      animate={{
-        backgroundColor:
-          status === "complete" ? "var(--blue-500)" : "var(--white)",
-        borderColor:
-          status === "complete" || status === "active"
-            ? "var(--blue-500)"
-            : "var(--slate-200)",
-            color:
-              status === "complete" || status === "active"
-                ? "var(--blue-500)"
-                : "var(--slate-200)",
-      }}
-      transition={{
-        duration: 0.25,
-      }}
-      className={cn(
-        "flex h-10 w-10 items-center justify-center rounded-full border-2 font-semibold"
-      )}
-    >
-      <div className="flex items-center justify-center">
-        {status === "complete" ? (
-          <CheckIcon className="h-6 w-6 text-white" />
-        ) : (
-          <motion.span>{step}</motion.span>
+    <motion.div className="relative" animate={status}>
+      <motion.div
+        variants={{
+          complete: {
+            scale: 1.25,
+          },
+          active: {
+            scale: 1,
+          },
+        }}
+        transition={{
+          duration: 0.35,
+          delay: 0.1,
+          type: "tween",
+          ease: "circOut",
+        }}
+        className="absolute inset-0 rounded-full bg-blue-200"
+      ></motion.div>
+      <motion.div
+        variants={stepVariant}
+        transition={{
+          duration: 0.25,
+        }}
+        className={cn(
+          "relative bg-white flex h-10 w-10 items-center justify-center rounded-full border-2 font-semibold"
         )}
-      </div>
+      >
+        <div className="flex items-center justify-center">
+          {status === "complete" ? (
+            <CheckIcon className="h-6 w-6 text-white" />
+          ) : (
+            <motion.span>{step}</motion.span>
+          )}
+        </div>
+      </motion.div>
     </motion.div>
   );
 }
@@ -125,6 +147,9 @@ function CheckIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
         animate={{ pathLength: 1 }}
         transition={{
           duration: 0.35,
+          delay: 0.1,
+          type: "tween",
+          ease: "easeOut",
         }}
         strokeLinecap="round"
         strokeLinejoin="round"
