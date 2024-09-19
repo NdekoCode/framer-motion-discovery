@@ -1,6 +1,40 @@
-import { useState } from "react";
-import {EnvelopeIcon} from "@heroicons/react/24/outline";
+"use client";
+import { AnimatePresence, motion, Variants } from 'framer-motion';
+import { ArchiveIcon } from 'lucide-react';
+import { useState } from 'react';
 
+import { cn } from '@/lib/utils';
+import { EnvelopeIcon } from '@heroicons/react/24/outline';
+
+const listItemVariant: Variants = {
+  hidden: {
+    opacity: 0,
+    y: -50,
+    height: 0,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    height: "auto",
+  },
+};
+
+const listVariant: Variants = {
+  hidden: {
+    opacity: 0,
+    y: -50,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.35,
+      staggerChildren: 0.15,
+      type: "tween",
+      ease: "easeOut",
+    },
+  },
+};
 const titles = [
   ["Apple's newest iPhone is here", "Watch our July event"],
   [
@@ -12,19 +46,30 @@ const titles = [
   ["Changelog update", "Edge subroutines and more"],
   ["React Hawaii is here!", "Time for fun in the sun"],
 ];
-
 export default function Email() {
   const [messages, setMessages] = useState([...Array(9).keys()]);
-
+  const [selectedMessages, setSelectedMessages] = useState<number[]>([]);
   function addMessage() {
     const newId = (messages.at(-1) || 0) + 1;
     setMessages((messages) => [...messages, newId]);
   }
 
-  function archiveMessage(mid: number) {
-    setMessages((messages) => messages.filter((id) => id !== mid));
+  function archiveSelectedMessage() {
+    setMessages((messages) =>
+      messages.filter((id) => !selectedMessages.includes(id))
+    );
+    setSelectedMessages(() => []);
   }
 
+  const toggleMessages = (messageId: number) => {
+    if (selectedMessages.includes(messageId)) {
+      setSelectedMessages((messages) =>
+        messages.filter((id) => id !== messageId)
+      );
+    } else {
+      setSelectedMessages((messages) => [...messages, messageId]);
+    }
+  };
   return (
     <div className="flex h-screen flex-col items-center justify-center overscroll-y-contain bg-gradient-to-br from-slate-700 to-slate-900 py-8 px-6 text-slate-600">
       <div className="mx-auto flex w-full max-w-3xl flex-1 overflow-hidden rounded-2xl bg-white ">
@@ -37,25 +82,72 @@ export default function Email() {
               >
                 <EnvelopeIcon className="h-5 w-5 " />
               </button>
+              <button
+                onClick={archiveSelectedMessage}
+                className="-mx-2 rounded px-2 py-1 text-slate-400 hover:text-slate-500 active:bg-slate-200"
+              >
+                <ArchiveIcon className="h-5 w-5 " />
+              </button>
             </div>
           </div>
-          <ul className="overflow-y-scroll px-3 pt-2">
-            {[...messages].reverse().map((mid) => (
-              <li key={mid} className="relative py-0.5">
-                <button
-                  onClick={() => archiveMessage(mid)}
-                  className="block w-full cursor-pointer truncate rounded py-3 px-3 text-left hover:bg-slate-200"
+          <motion.ul
+            variants={listVariant}
+            initial="hidden"
+            animate="visible"
+            className="overflow-y-auto h-full px-3 pt-2"
+            layout
+          >
+            <AnimatePresence mode="popLayout">
+              {[...messages].reverse().map((mid) => (
+                <motion.li
+                  variants={listItemVariant}
+                  key={mid}
+                  className="relative"
+                  layoutId={mid.toString()}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{
+                    duration: 0.75,
+                    staggerChildren: 0.25,
+                    type: "spring",
+                    bounce: 0.35,
+                  }}
                 >
-                  <p className="truncate text-sm font-medium text-slate-500">
-                    {titles[mid % titles.length][0]}
-                  </p>
-                  <p className="truncate text-xs text-slate-400">
-                    {titles[mid % titles.length][1]}
-                  </p>
-                </button>
-              </li>
-            ))}
-          </ul>
+                  <div className="py-0.5">
+                    <button
+                      onClick={() => toggleMessages(mid)}
+                      className={cn(
+                        "block w-full cursor-pointer truncate rounded py-3 px-3 text-left",
+                        selectedMessages.includes(mid)
+                          ? "bg-blue-500 text-white"
+                          : " hover:bg-slate-200  bg-white"
+                      )}
+                    >
+                      <p
+                        className={cn(
+                          "truncate text-sm font-medium ",
+                          selectedMessages.includes(mid)
+                            ? "text-slate-200"
+                            : "text-slate-500"
+                        )}
+                      >
+                        {titles[mid % titles.length][0]}
+                      </p>
+                      <p
+                        className={cn(
+                          "truncate text-xs ",
+                          selectedMessages.includes(mid)
+                            ? "text-slate-100"
+                            : "text-slate-400"
+                        )}
+                      >
+                        {titles[mid % titles.length][1]}
+                      </p>
+                    </button>
+                  </div>
+                </motion.li>
+              ))}
+            </AnimatePresence>
+          </motion.ul>
         </div>
         <div className="flex-1 overflow-y-scroll border-l px-8 py-8">
           <h1 className="h-8 rounded bg-slate-100 text-2xl font-bold" />

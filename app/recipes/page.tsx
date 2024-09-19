@@ -1,9 +1,12 @@
-import Steps from '@/components/recipes/steps';
+// import Steps from '@/components/recipes/steps';
+
+import Email from '@/components/recipes/email';
 
 const page = () => {
   return (
     <div>
-      <Steps/>
+      {/* <Steps/> */}
+      <Email/>
     </div>
   )
 }
