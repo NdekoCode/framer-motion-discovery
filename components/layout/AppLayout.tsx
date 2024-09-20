@@ -1,16 +1,15 @@
-import React, {FC, PropsWithChildren} from 'react';
-import Navbar from "@/components/Navbar";
+import { FC, PropsWithChildren } from 'react';
 
-const AppLayout: FC<PropsWithChildren> = ({children}) => {
-    return (
-        <>
-            <Navbar/>
-            <div className="container">
+// import Navbar from "@/components/Navbar";
 
-                {children}
-            </div>
-        </>
-    );
-}
+const AppLayout: FC<PropsWithChildren> = ({ children }) => {
+  return (
+    <>
+      {/* <Navbar /> */}
+
+      {children}
+    </>
+  );
+};
 
 export default AppLayout;
