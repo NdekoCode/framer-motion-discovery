@@ -1,11 +1,13 @@
 import { FC, PropsWithChildren } from 'react';
 
+import Navbar from '../Navbar';
+
 // import Navbar from "@/components/Navbar";
 
 const AppLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <>
-      {/* <Navbar /> */}
+      <Navbar />
 
       {children}
     </>
