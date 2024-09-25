@@ -1,10 +1,35 @@
 "use client";
 import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
 import Image from 'next/image';
-import { useState } from 'react';
+import { KeyboardEvent, useCallback, useEffect, useState } from 'react';
 
 import { cn } from '@/lib/utils';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+
+type KeyHandler = (event: KeyboardEvent) => void;
+
+function useKeypress(key: string, callback: KeyHandler): void {
+  const handleKeyPress = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === key) {
+        callback(event);
+      }
+    },
+    [key, callback]
+  );
+
+  useEffect(() => {
+    const handleKeyDown = (event: globalThis.KeyboardEvent) => {
+      handleKeyPress(event as unknown as KeyboardEvent);
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleKeyPress]);
+}
 
 const images = [
   "/assets/images/01.jpg",
@@ -23,7 +48,16 @@ const fullAspectRatio = 3 / 2;
 const ImageMotion = motion(Image);
 export default function Carousel() {
   const [index, setIndex] = useState(0);
-
+  useKeypress('ArrowRight',()=>{
+    if(index<images.length-1){
+      setIndex(index+1)
+    }
+  })
+  useKeypress('ArrowLeft',()=>{
+    if(index>0){
+      setIndex(index-1)
+    }
+  })
   return (
     <div className="h-full bg-black">
       <div className="mx-auto relative flex h-screen max-w-7xl flex-col items-center justify-center">
