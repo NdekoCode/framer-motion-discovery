@@ -3,6 +3,7 @@ import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
 import Image from 'next/image';
 import { useState } from 'react';
 
+import { cn } from '@/lib/utils';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 
 const images = [
@@ -12,6 +13,10 @@ const images = [
   "/assets/images/04.jpg",
   "/assets/images/05.jpg",
   "/assets/images/06.jpg",
+  "/assets/images/07.jpg",
+  "/assets/images/08.jpg",
+  "/assets/images/09.jpg",
+  "/assets/images/10.jpg",
 ];
 
 export default function Carousel() {
@@ -19,7 +24,7 @@ export default function Carousel() {
 
   return (
     <div className="h-full bg-black">
-      <div className="mx-auto flex h-screen max-w-7xl flex-col items-center justify-center">
+      <div className="mx-auto relative flex h-screen max-w-7xl flex-col items-center justify-center">
         <div className="relative flex overflow-hidden">
           <MotionConfig
             transition={{
@@ -35,7 +40,7 @@ export default function Carousel() {
                     <div className="shrink-0 w-full" key={index}>
                       <Image
                         height={750}
-                        width={1280}
+                        width={1480}
                         alt={`Image ${index + 1}`}
                         src={img}
                         className="aspect-[3/2] w-full basis-full object-cover"
@@ -75,6 +80,25 @@ export default function Carousel() {
             </AnimatePresence>
           </MotionConfig>
         </div>
+
+        <motion.div className="absolute  inset-x-0 bg-gray-900/25 backdrop-blur-md rounded-full px-4 py-2 bottom-40 lg:bottom-20 flex h-14 justify-center items-center overflow-x-hidden gap-2">
+              {images.map(
+                (img, key) =>
+                  img && (
+                    <motion.button animate={{
+                      x:`-${index*100}%`
+                    }} className={cn("flex rounded-lg overflow-hidden hover:opacity-100 hover:bg-transparent transition-all duration-300 aspect-[3/2] h-full",index===key?"bg-transparent opacity-100":"bg-slate-900/50 opacity-50")} key={key} onClick={()=>setIndex(key)}>
+                      <Image
+                        height={350}
+                        width={350}
+                        alt={`Image ${index + 1}`}
+                        src={img}
+                        className="size-full basis-full object-cover"
+                      />
+                    </motion.button>
+                  )
+              )}
+            </motion.div>
       </div>
     </div>
   );
