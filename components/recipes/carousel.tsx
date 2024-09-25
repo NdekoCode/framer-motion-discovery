@@ -18,7 +18,9 @@ const images = [
   "/assets/images/09.jpg",
   "/assets/images/10.jpg",
 ];
-
+const collapseAspectRatio = 1 / 3;
+const fullAspectRatio = 3 / 2;
+const ImageMotion = motion(Image);
 export default function Carousel() {
   const [index, setIndex] = useState(0);
 
@@ -33,14 +35,21 @@ export default function Carousel() {
               type: "tween",
             }}
           >
-            <motion.div animate={{ x: `-${index * 100}%` }} className="flex">
+            <motion.div
+              animate={{ x: `-${index * 100}%` }}
+              initial={false}
+              className="flex"
+            >
               {images.map(
-                (img, index) =>
+                (img, key) =>
                   img && (
-                    <div className="shrink-0 w-full" key={index}>
-                      <Image
+                    <div className="shrink-0 w-full" key={key}>
+                      <ImageMotion
                         height={750}
                         width={1480}
+                        animate={{
+                          opacity: index === key ? 1 : 0.18,
+                        }}
                         alt={`Image ${index + 1}`}
                         src={img}
                         className="aspect-[3/2] w-full basis-full object-cover"
@@ -81,24 +90,43 @@ export default function Carousel() {
           </MotionConfig>
         </div>
 
-        <motion.div className="absolute  inset-x-0 bg-gray-900/25 backdrop-blur-md rounded-full px-4 py-2 bottom-40 lg:bottom-20 flex h-14 justify-center items-center overflow-x-hidden gap-2">
-              {images.map(
-                (img, key) =>
-                  img && (
-                    <motion.button animate={{
-                      x:`-${index*100}%`
-                    }} className={cn("flex rounded-lg overflow-hidden hover:opacity-100 hover:bg-transparent transition-all duration-300 aspect-[3/2] h-full",index===key?"bg-transparent opacity-100":"bg-slate-900/50 opacity-50")} key={key} onClick={()=>setIndex(key)}>
-                      <Image
-                        height={350}
-                        width={350}
-                        alt={`Image ${index + 1}`}
-                        src={img}
-                        className="size-full basis-full object-cover"
-                      />
-                    </motion.button>
-                  )
-              )}
-            </motion.div>
+        <div className="absolute left-1/2 -translate-x-1/2  bg-gray-900/25 backdrop-blur-md inset-x-0 rounded-full px-4 py-2 bottom-40 lg:bottom-20 flex h-14 justify-center items-center overflow-x-hidden gap-2">
+          <motion.div
+            className="flex aspect-[3/2] h-full mx-auto"
+            initial={false}
+            animate={{
+              x: `-${(index * 100 * collapseAspectRatio) / fullAspectRatio}%`,
+            }}
+          >
+            {images.map(
+              (img, key) =>
+                img && (
+                  <button
+                    className={cn(
+                      "flex rounded-lg shrink-0 overflow-hidden hover:opacity-100 hover:bg-transparent transition-all duration-300  h-full",
+                      index === key
+                        ? "aspect-[3/2] mx-[10%] bg-transparent opacity-100"
+                        : "bg-slate-900/50 mx-0 opacity-50 aspect-[2/3]"
+                    )}
+                    key={key}
+                    onClick={() => setIndex(key)}
+                  >
+                    <ImageMotion
+                      initial={false}
+                      height={350}
+                      width={350}
+                      animate={{
+                        opacity: index === key ? 1 : 0.95,
+                      }}
+                      alt={`Image ${index + 1}`}
+                      src={img}
+                      className="size-full basis-full object-cover"
+                    />
+                  </button>
+                )
+            )}
+          </motion.div>
+        </div>
       </div>
     </div>
   );
