@@ -1,6 +1,4 @@
-// import Steps from '@/components/recipes/steps';
-
-import Carousel from '@/components/recipes/carousel';
+import ResizablePanel from '@/components/recipes/resizablePanel';
 
 // import Email from '@/components/recipes/email';
 
@@ -10,7 +8,7 @@ const page = () => {
       {/* <Steps/> */}
       {/* <Email/> */}
       {/* <Header /> */}
-      <Carousel />
+      <ResizablePanel />
     </div>
   );
 };

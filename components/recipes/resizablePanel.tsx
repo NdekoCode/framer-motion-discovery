@@ -1,10 +1,19 @@
 /* eslint-disable react/prop-types */
-import { AnimatePresence, motion, MotionConfig } from "framer-motion";
-import React, { useState } from "react";
-import { CheckIcon } from "@heroicons/react/24/solid";
-import { createContext } from "react";
-import { useContext } from "react";
+"use client";
+import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
+import { createContext, FC, PropsWithChildren, SVGProps, useContext, useState } from 'react';
 
+import { CheckIcon } from '@heroicons/react/24/solid';
+
+export interface FormProps {
+  onSubmit: () => Promise<void>;
+  afterSave: () => void;
+  className?: string;
+}
+
+export interface FormButtonProps extends FormProps {
+  children: React.ReactNode;
+}
 const transition = { type: "ease", ease: "easeInOut", duration: 1 };
 
 export default function ResizablePanel() {
@@ -30,16 +39,21 @@ export default function ResizablePanel() {
                 </p>
                 <div className="mt-3">
                   <input
-                    className="block w-full rounded border-none text-slate-900"
+                    className="block w-full px-2 py-3 focus:ring ring-offset-1 transition-all focus:ring-indigo-500 outline-none rounded border-none text-slate-900"
                     type="email"
                     required
                     defaultValue="sam@buildui.com"
+                    autoComplete="email"
                   />
                 </div>
                 <div className="mt-8 text-right">
-                  <Form.Button className="rounded bg-indigo-500 px-5 py-2 text-sm font-medium text-white ">
+                  <FormButton
+                    onSubmit={async () => await delay(1000)}
+                    afterSave={() => setStatus("success")}
+                    className="rounded bg-indigo-500 px-5 py-3 text-sm font-medium text-white"
+                  >
                     Email me my link
-                  </Form.Button>
+                  </FormButton>
                 </div>
               </Form>
             </div>
@@ -57,13 +71,16 @@ export default function ResizablePanel() {
       </div>
     </div>
   );
-}
-
-const formContext = createContext<{ status: "idle" | "saving" | "success" }>({
+}const formContext = createContext<{ status: "idle" | "saving" | "success" }>({
   status: "idle",
 });
 
-function Form({ onSubmit, afterSave, children, ...props }) {
+const Form: FC<PropsWithChildren<FormProps>> = ({
+  onSubmit,
+  afterSave,
+  children,
+  ...props
+}) => {
   const [status, setStatus] = useState<"idle" | "saving" | "success">("idle");
 
   async function handleSubmit(e: { preventDefault: () => void }) {
@@ -82,9 +99,13 @@ function Form({ onSubmit, afterSave, children, ...props }) {
       </form>
     </formContext.Provider>
   );
-}
+};
 
-Form.Button = function FormButton({ children, className, ...rest }) {
+const FormButton = function FormButton({
+  children,
+  className,
+  ...rest
+}: FormButtonProps) {
   const { status } = useContext(formContext);
 
   const disabled = status !== "idle";
@@ -128,9 +149,10 @@ Form.Button = function FormButton({ children, className, ...rest }) {
     </MotionConfig>
   );
 };
-
-function Spinner(props) {
-  const { className, ...rest } = props;
+function Spinner({
+  className,
+  ...props
+}: { className?: string } & SVGProps<SVGSVGElement>) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -139,7 +161,7 @@ function Spinner(props) {
         animationTimingFunction: "steps(8, end)",
         animationDuration: ".75s",
       }}
-      {...rest}
+      {...props}
     >
       <rect
         style={{ opacity: 0.4 }}
@@ -222,7 +244,6 @@ function Spinner(props) {
     </svg>
   );
 }
-
 async function delay(ms: number | undefined) {
   await new Promise((resolve) => setTimeout(resolve, ms));
 }
