@@ -20,58 +20,88 @@ export default function ResizablePanel() {
   const [status, setStatus] = useState("idle");
 
   return (
-    <div className="flex min-h-screen flex-col items-start bg-zinc-900 pt-28">
-      <div className="mx-auto w-full max-w-md">
-        <div className="rounded-2xl border border-zinc-700 bg-zinc-800">
-          <div className="px-8 pt-8">
-            <p className="text-lg text-white">Reset password</p>
+    <MotionConfig
+      transition={{
+        duration: 1,
+      }}
+    >
+      <div className="flex min-h-screen flex-col items-start bg-zinc-900 pt-28">
+        <div className="mx-auto w-full max-w-md">
+          <div className="rounded-2xl border border-zinc-700 bg-zinc-800 overflow-y-hidden">
+            <div className="px-8 pt-8">
+              <p className="text-lg text-white">Reset password</p>
+            </div>
+            <motion.div
+              initial={false}
+              animate={{
+                height: status === "idle" || status === "saving" ? 204 : 84,
+              }}
+            >
+              <AnimatePresence mode="sync">
+                {status === "idle" || status === "saving" ? (
+                  <motion.div
+                    key={"saving"}
+                    initial={false}
+                    exit={{ opacity: 0 }}
+                    transition={{
+                      duration: 0.5,
+                    }}
+                  >
+                    <Form
+                      onSubmit={async () => await delay(1000)}
+                      afterSave={() => setStatus("success")}
+                      className="p-8"
+                    >
+                      <p className="text-sm text-zinc-400">
+                        Enter your email to get a password reset link:
+                      </p>
+                      <div className="mt-3">
+                        <input
+                          className="block w-full px-2 py-3 focus:ring ring-offset-1 transition-all focus:ring-indigo-500 outline-none rounded border-none text-slate-900"
+                          type="email"
+                          required
+                          defaultValue="sam@buildui.com"
+                          autoComplete="email"
+                        />
+                      </div>
+                      <div className="mt-8 text-right">
+                        <FormButton
+                          onSubmit={async () => await delay(1000)}
+                          afterSave={() => setStatus("success")}
+                          className="rounded bg-indigo-500 px-5 py-3 text-sm font-medium text-white"
+                        >
+                          Email me my link
+                        </FormButton>
+                      </div>
+                    </Form>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    transition={{
+                      duration: 0.5,
+                    }}
+                  >
+                    <p className="p-8 text-sm text-zinc-400">
+                      Email sent! Check your inbox to continue.
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
           </div>
 
-          {status === "idle" || status === "saving" ? (
-            <div>
-              <Form
-                onSubmit={async () => await delay(1000)}
-                afterSave={() => setStatus("success")}
-                className="p-8"
-              >
-                <p className="text-sm text-zinc-400">
-                  Enter your email to get a password reset link:
-                </p>
-                <div className="mt-3">
-                  <input
-                    className="block w-full px-2 py-3 focus:ring ring-offset-1 transition-all focus:ring-indigo-500 outline-none rounded border-none text-slate-900"
-                    type="email"
-                    required
-                    defaultValue="sam@buildui.com"
-                    autoComplete="email"
-                  />
-                </div>
-                <div className="mt-8 text-right">
-                  <FormButton
-                    onSubmit={async () => await delay(1000)}
-                    afterSave={() => setStatus("success")}
-                    className="rounded bg-indigo-500 px-5 py-3 text-sm font-medium text-white"
-                  >
-                    Email me my link
-                  </FormButton>
-                </div>
-              </Form>
-            </div>
-          ) : (
-            <p className="p-8 text-sm text-zinc-400">
-              Email sent! Check your inbox to continue.
-            </p>
-          )}
+          <p className="mt-8 text-sm text-zinc-500">
+            <span className="underline">Reach out</span> to us if you need more
+            help.
+          </p>
         </div>
-
-        <p className="mt-8 text-sm text-zinc-500">
-          <span className="underline">Reach out</span> to us if you need more
-          help.
-        </p>
       </div>
-    </div>
+    </MotionConfig>
   );
-}const formContext = createContext<{ status: "idle" | "saving" | "success" }>({
+}
+const formContext = createContext<{ status: "idle" | "saving" | "success" }>({
   status: "idle",
 });
 
