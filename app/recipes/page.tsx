@@ -1,4 +1,4 @@
-import ResizablePanel from '@/components/recipes/resizablePanel';
+import Calendar from '@/components/recipes/calendar';
 
 // import Email from '@/components/recipes/email';
 
@@ -8,7 +8,7 @@ const page = () => {
       {/* <Steps/> */}
       {/* <Email/> */}
       {/* <Header /> */}
-      <ResizablePanel />
+      <Calendar />
     </div>
   );
 };

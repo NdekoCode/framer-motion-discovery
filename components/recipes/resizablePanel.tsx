@@ -132,13 +132,11 @@ const Form: FC<PropsWithChildren<FormProps>> = ({
   return (
     <formContext.Provider value={{ status }}>
       <form onSubmit={handleSubmit} {...props}>
-        <fieldset disabled={status !== "idle"}>{children}</fieldset>
+        <div aria-disabled={status !== "idle"}>{children}</div>
       </form>
     </formContext.Provider>
   );
-};
-
-const FormButton = function FormButton({
+};const FormButton = function FormButton({
   children,
   className,
   ...rest
