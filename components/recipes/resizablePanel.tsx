@@ -1,69 +1,123 @@
 /* eslint-disable react/prop-types */
-import { AnimatePresence, motion, MotionConfig } from "framer-motion";
-import React, { useState } from "react";
-import { CheckIcon } from "@heroicons/react/24/solid";
-import { createContext } from "react";
-import { useContext } from "react";
+"use client";
+import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
+import { createContext, FC, PropsWithChildren, SVGProps, useContext, useState } from 'react';
 
-const transition = { type: "ease", ease: "easeInOut", duration: 1 };
+import useMeasure from '@/lib/hooks/useMeasure';
+import { CheckIcon } from '@heroicons/react/24/solid';
+
+export interface FormProps {
+  onSubmit: () => Promise<void>;
+  afterSave: () => void;
+  className?: string;
+}
+
+export interface FormButtonProps extends FormProps {
+  children: React.ReactNode;
+}
+const transition = { type: "ease", ease: "easeInOut", duration: 0.5 };
 
 export default function ResizablePanel() {
   const [status, setStatus] = useState("idle");
-
+  const [ref, bounds] = useMeasure<HTMLDivElement>();
+  console.log(bounds.height);
   return (
-    <div className="flex min-h-screen flex-col items-start bg-zinc-900 pt-28">
-      <div className="mx-auto w-full max-w-md">
-        <div className="rounded-2xl border border-zinc-700 bg-zinc-800">
-          <div className="px-8 pt-8">
-            <p className="text-lg text-white">Reset password</p>
+    <MotionConfig transition={transition}>
+      <div className="flex min-h-screen flex-col items-start bg-zinc-900 pt-28">
+        <div className="mx-auto w-full max-w-md">
+          <div className="rounded-2xl border border-zinc-700 bg-zinc-800 overflow-y-hidden">
+            <div className="px-8 pt-8">
+              <p className="text-lg text-white">Reset password</p>
+            </div>
+            <motion.div
+              animate={{
+                height: bounds.height > 0 ? bounds.height : "auto",
+              }}
+              transition={{
+                type: "spring",
+                bounce: 0.25,
+                duration: 0.75,
+              }}
+            >
+              <div ref={ref}>
+                <AnimatePresence mode="popLayout">
+                  {status === "idle" || status === "saving" ? (
+                    <motion.div
+                      key={"saving"}
+                      initial={false}
+                      exit={{ opacity: 0 }}
+                      transition={{
+                        ...transition,
+                        duration: transition.duration / 2,
+                      }}
+                    >
+                      <Form
+                        onSubmit={async () => await delay(1000)}
+                        afterSave={() => setStatus("success")}
+                        className="p-8"
+                      >
+                        <p className="text-sm text-zinc-400">
+                          Enter your email to get a password reset link:
+                        </p>
+                        <div className="mt-3">
+                          <input
+                            className="block w-full px-2 py-3 focus:ring ring-offset-1 transition-all focus:ring-indigo-500 outline-none rounded border-none text-slate-900"
+                            type="email"
+                            required
+                            defaultValue="sam@buildui.com"
+                            autoComplete="email"
+                          />
+                        </div>
+                        <div className="mt-8 text-right">
+                          <FormButton
+                            onSubmit={async () => await delay(1000)}
+                            afterSave={() => setStatus("success")}
+                            className="rounded bg-indigo-500 px-5 py-3 text-sm font-medium text-white"
+                          >
+                            Email me my link
+                          </FormButton>
+                        </div>
+                      </Form>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{
+                        ...transition,
+                        duration: transition.duration / 2,
+                        delay: transition.duration / 2,
+                      }}
+                    >
+                      <p className="p-8 text-sm text-zinc-400">
+                        Email sent! Check your inbox to continue.
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </motion.div>
           </div>
 
-          {status === "idle" || status === "saving" ? (
-            <div>
-              <Form
-                onSubmit={async () => await delay(1000)}
-                afterSave={() => setStatus("success")}
-                className="p-8"
-              >
-                <p className="text-sm text-zinc-400">
-                  Enter your email to get a password reset link:
-                </p>
-                <div className="mt-3">
-                  <input
-                    className="block w-full rounded border-none text-slate-900"
-                    type="email"
-                    required
-                    defaultValue="sam@buildui.com"
-                  />
-                </div>
-                <div className="mt-8 text-right">
-                  <Form.Button className="rounded bg-indigo-500 px-5 py-2 text-sm font-medium text-white ">
-                    Email me my link
-                  </Form.Button>
-                </div>
-              </Form>
-            </div>
-          ) : (
-            <p className="p-8 text-sm text-zinc-400">
-              Email sent! Check your inbox to continue.
-            </p>
-          )}
+          <p className="mt-8 text-sm text-zinc-500">
+            <span className="underline">Reach out</span> to us if you need more
+            help.
+          </p>
         </div>
-
-        <p className="mt-8 text-sm text-zinc-500">
-          <span className="underline">Reach out</span> to us if you need more
-          help.
-        </p>
       </div>
-    </div>
+    </MotionConfig>
   );
 }
-
 const formContext = createContext<{ status: "idle" | "saving" | "success" }>({
   status: "idle",
 });
 
-function Form({ onSubmit, afterSave, children, ...props }) {
+const Form: FC<PropsWithChildren<FormProps>> = ({
+  onSubmit,
+  afterSave,
+  children,
+  ...props
+}) => {
   const [status, setStatus] = useState<"idle" | "saving" | "success">("idle");
 
   async function handleSubmit(e: { preventDefault: () => void }) {
@@ -78,13 +132,15 @@ function Form({ onSubmit, afterSave, children, ...props }) {
   return (
     <formContext.Provider value={{ status }}>
       <form onSubmit={handleSubmit} {...props}>
-        <fieldset disabled={status !== "idle"}>{children}</fieldset>
+        <div aria-disabled={status !== "idle"}>{children}</div>
       </form>
     </formContext.Provider>
   );
-}
-
-Form.Button = function FormButton({ children, className, ...rest }) {
+};const FormButton = function FormButton({
+  children,
+  className,
+  ...rest
+}: FormButtonProps) {
   const { status } = useContext(formContext);
 
   const disabled = status !== "idle";
@@ -128,9 +184,10 @@ Form.Button = function FormButton({ children, className, ...rest }) {
     </MotionConfig>
   );
 };
-
-function Spinner(props) {
-  const { className, ...rest } = props;
+function Spinner({
+  className,
+  ...props
+}: { className?: string } & SVGProps<SVGSVGElement>) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -139,7 +196,7 @@ function Spinner(props) {
         animationTimingFunction: "steps(8, end)",
         animationDuration: ".75s",
       }}
-      {...rest}
+      {...props}
     >
       <rect
         style={{ opacity: 0.4 }}
@@ -222,7 +279,6 @@ function Spinner(props) {
     </svg>
   );
 }
-
 async function delay(ms: number | undefined) {
   await new Promise((resolve) => setTimeout(resolve, ms));
 }

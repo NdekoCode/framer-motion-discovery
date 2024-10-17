@@ -1,6 +1,4 @@
-// import Steps from '@/components/recipes/steps';
-
-import Header from '@/components/recipes/header';
+import Calendar from '@/components/recipes/calendar';
 
 // import Email from '@/components/recipes/email';
 
@@ -9,7 +7,8 @@ const page = () => {
     <div>
       {/* <Steps/> */}
       {/* <Email/> */}
-      <Header />
+      {/* <Header /> */}
+      <Calendar />
     </div>
   );
 };

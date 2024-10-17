@@ -1,12 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-'use client';
+'use client';;
+import { motion } from 'framer-motion';
+import { FC } from 'react';
 
-import {motion} from 'framer-motion';
-import {FC, PropsWithChildren} from 'react';
-
-import {useToggle} from '@/lib/hooks/useToggle';
-import {Btn} from "@/components/Btn";
-import SimpleCard from "@/components/SimpleCard";
+import { Btn } from '@/components/Btn';
+import { useToggle } from '@/lib/hooks/useToggle';
 
 const Home: FC = () => {
     const [open, onToggle] = useToggle();
