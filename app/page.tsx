@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion';
 import { FC } from 'react';
 
-import { Btn } from '@/components/Btn';
 import { useToggle } from '@/lib/hooks/useToggle';
 
 const Home: FC = () => {
@@ -22,7 +21,6 @@ const Home: FC = () => {
                         1
                     </motion.div>
                 </div>
-                <Btn onClick={onToggle}>Afficher / Masquer</Btn>
             </div>
         </div>
     );
