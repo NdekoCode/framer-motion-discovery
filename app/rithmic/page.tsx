@@ -86,7 +86,20 @@ const page = () => {
             <motion.div
               variants={gridItemVariant}
               className="bg-slate-800 aspect-square flex items-center justify-center rounded-lg gap-10"
-            ></motion.div>
+            >
+              <motion.div className='size-1/3 bg-rose-400' animate={{
+                scale:[1,2,2,1],
+                rotate:[0,90,90,0],
+                borderRadius:['10%','10%','50%','10%'],
+              }}
+              transition={{
+                repeat:Infinity,
+                repeatDelay:0.35,
+                delay:0.4,
+                duration:1.5,
+                ease:"easeInOut"
+              }}/>
+            </motion.div>
             <motion.div
               variants={gridItemVariant}
               className="bg-slate-800 aspect-square flex items-center justify-center rounded-lg gap-10"
