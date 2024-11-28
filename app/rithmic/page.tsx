@@ -45,9 +45,9 @@ const page = () => {
               variants={gridItemVariant}
               className="bg-slate-800 aspect-square flex items-center justify-center rounded-lg gap-10"
             >
-                {/* FADE UP AND FADE IN ANIMATION WITH FRAMER MOTION */}
+              {/* FADE UP AND FADE IN ANIMATION WITH FRAMER MOTION */}
 
-                {/* FADE UP ANIMATION WITH FRAMER MOTION */}
+              {/* FADE UP ANIMATION WITH FRAMER MOTION */}
               <motion.div
                 initial={{
                   opacity: 0,
@@ -65,7 +65,7 @@ const page = () => {
                 className="size-20 rounded-lg bg-slate-100"
               ></motion.div>
 
-                {/* FADE IN ANIMATION WITH FRAMER MOTION */}
+              {/* FADE IN ANIMATION WITH FRAMER MOTION */}
               <motion.div
                 className="size-20 rounded-full bg-slate-100"
                 initial={{
@@ -87,27 +87,60 @@ const page = () => {
               variants={gridItemVariant}
               className="bg-slate-800 aspect-square flex items-center justify-center rounded-lg gap-10"
             >
-              <motion.div className='size-1/3 bg-rose-400' animate={{
-                scale:[1,2,2,1],
-                rotate:[0,90,90,0],
-                borderRadius:['10%','10%','50%','10%'],
-              }}
-              transition={{
-                repeat:Infinity,
-                repeatDelay:0.35,
-                delay:0.4,
-                duration:1.5,
-                ease:"easeInOut"
-              }}/>
+              <motion.div
+                className="size-1/3 bg-rose-400"
+                animate={{
+                  scale: [1, 2, 2, 1],
+                  rotate: [0, 90, 90, 0],
+                  borderRadius: ["10%", "10%", "50%", "10%"],
+                }}
+                transition={{
+                  repeat: Infinity,
+                  repeatDelay: 0.35,
+                  delay: 0.4,
+                  duration: 1.5,
+                  ease: "easeInOut",
+                }}
+              />
             </motion.div>
             <motion.div
               variants={gridItemVariant}
               className="bg-slate-800 aspect-square flex items-center justify-center rounded-lg gap-10"
-            ></motion.div>
+            >
+              <motion.button
+                className="py-3 bg-emerald-500 w-1/2 text-white rounded-lg will-change-transform tracking-wide"
+                whileHover={{
+                  scale: 1.1,
+                }}
+                whileTap={{ scale: 0.95 }}
+                transition={{
+                  bounceDamping: 10,
+                  bounceStiffness: 200,
+                  duration: 0.35,
+                }}
+              >
+                Send me
+              </motion.button>
+            </motion.div>
             <motion.div
               variants={gridItemVariant}
-              className="bg-slate-800 aspect-square flex items-center justify-center rounded-lg gap-10"
-            ></motion.div>
+              className="bg-slate-800 text-xl text-gray-100 aspect-square overflow-hidden flex items-center justify-center rounded-lg gap-10 "
+            >
+              <motion.div
+                className="size-1/3 bg-orange-500 rounded-lg cursor-grab"
+                drag
+                dragConstraints={{
+                  top: -125,
+                  left: -125,
+                  right: 125,
+                  bottom: 125,
+                }}
+                dragTransition={{
+                  bounceDamping: 10,
+                  bounceStiffness: 600,
+                }}
+              />
+            </motion.div>
             <motion.div
               variants={gridItemVariant}
               className="bg-slate-800 aspect-square flex items-center justify-center rounded-lg gap-10"
