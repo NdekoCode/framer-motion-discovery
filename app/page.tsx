@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';;
-import { motion } from 'motion';
+import { motion } from 'motion/react';
 import { FC } from 'react';
 
 import { useToggle } from '@/lib/hooks/useToggle';

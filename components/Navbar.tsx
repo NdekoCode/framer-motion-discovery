@@ -21,15 +21,15 @@ const Navbar = () => {
           </Link>
           <Link
             className="font-medium text-gray-600 hover:text-gray-400 focus:outline-none focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
-            href="/contact"
+            href="/tom-is-loading"
           >
-            Contact
+            Tom is loading
           </Link>
           <Link
             className="font-medium text-gray-600 hover:text-gray-400 focus:outline-none focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
-            href="/basic"
+            href="/contact"
           >
-            Tom is loading
+            Contact
           </Link>
           <Link
             className="font-medium text-gray-600 hover:text-gray-400 focus:outline-none focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
