@@ -1,5 +1,6 @@
 "use client";
 import { motion, useAnimationControls, useInView, useScroll, Variants } from 'motion/react';
+import { useTheme } from 'next-themes';
 import { useEffect, useRef } from 'react';
 
 import ScrollBlock from '@/components/ScrollBlock';
@@ -59,6 +60,11 @@ const page = () => {
   const isInView = useInView(containerRef, { once: true });
   // On definit un controlleur manuelle des animations framer-motion
   const mainControl = useAnimationControls();
+
+  const { setTheme } = useTheme()
+  useEffect(()=>{
+    setTheme('dark')
+  },[])
   useEffect(() => {
     if (isInView) {
       mainControl.start("visible");
