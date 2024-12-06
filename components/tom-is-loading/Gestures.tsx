@@ -2,7 +2,7 @@ import { motion } from 'motion/react';
 
 const Gestures = () => {
   return (
-    <div className="flex flex-col gap-10">
+    <motion.div layoutId='gestures' className="flex flex-col gap-10">
       <motion.button
         whileHover={{
           backgroundColor: "var(--blue-800)",
@@ -35,7 +35,7 @@ const Gestures = () => {
       >
         Click Me !
       </motion.button>
-    </div>
+    </motion.div>
   );
 };
 
