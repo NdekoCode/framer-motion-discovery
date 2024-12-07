@@ -1,36 +1,41 @@
-"use client";
-import { motion, MotionConfig } from 'framer-motion';
+import { motion } from 'motion/react';
 
 const Gestures = () => {
   return (
-    <>
-      <MotionConfig transition={{
-        duration:0.35,
-        ease:'easeInOut'
-      }}>
-        <motion.button
-          layout
-          className="p-3 w-max hover:scale-105 will-change-transform active:scale-95 transition-transform duration-300 active:rotate-6 rounded bg-blue-500 text-white"
-        >
-          Click Me
-        </motion.button>
-
-        <motion.button
-          layout
-          whileHover={{
-            scale:1.25,
-            rotate:'3deg'
-          }}
-          whileTap={{
-            scale:0.95,
-            rotate:'-3deg'
-          }}
-          className="p-3 w-max rounded bg-red-500 text-white"
-        >
-          Click Me
-        </motion.button>
-      </MotionConfig>
-    </>
+    <motion.div layoutId='gestures' className="flex flex-col gap-10">
+      <motion.button
+        whileHover={{
+          backgroundColor: "var(--blue-800)",
+          scale: 1.1,
+        }}
+        whileTap={{
+          scale: 0.95,
+          rotate: "2.5deg",
+        }}
+        transition={{
+          ease: "easeInOut",
+        }}
+        className="flex w-fit items-center rounded-md justify-center bg-blue-600 text-white px-5 py-2.5"
+      >
+        Click Me !
+      </motion.button>
+      <motion.button
+        whileHover={{
+          backgroundColor: "var(--slate-900)",
+          scale: 1.1,
+        }}
+        whileTap={{
+          scale: 0.95,
+          rotate: "2.5deg",
+        }}
+        transition={{
+          ease: "easeInOut",
+        }}
+        className="flex w-fit items-center rounded-md justify-center bg-slate-700 text-white px-5 py-2.5"
+      >
+        Click Me !
+      </motion.button>
+    </motion.div>
   );
 };
 

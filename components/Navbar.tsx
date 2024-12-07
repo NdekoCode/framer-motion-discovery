@@ -14,34 +14,22 @@ const Navbar = () => {
         <div className="flex flex-row items-center gap-5 mt-5 sm:justify-end sm:mt-0 sm:ps-5">
           <Link
             className="font-medium text-blue-500 focus:outline-none"
-            href="/"
+            href="/rithmic"
             aria-current="page"
           >
-            Home
+            Rithmic
           </Link>
           <Link
             className="font-medium text-gray-600 hover:text-gray-400 focus:outline-none focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
-            href="/about"
+            href="/tom-is-loading"
           >
-            About
-          </Link>
-          <Link
-            className="font-medium text-gray-600 hover:text-gray-400 focus:outline-none focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
-            href="/blog"
-          >
-            Blog
+            Tom is loading
           </Link>
           <Link
             className="font-medium text-gray-600 hover:text-gray-400 focus:outline-none focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
             href="/contact"
           >
             Contact
-          </Link>
-          <Link
-            className="font-medium text-gray-600 hover:text-gray-400 focus:outline-none focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
-            href="/basic"
-          >
-            Tom is loading
           </Link>
           <Link
             className="font-medium text-gray-600 hover:text-gray-400 focus:outline-none focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"

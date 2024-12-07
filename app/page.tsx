@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';;
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { FC } from 'react';
 
-import { Btn } from '@/components/Btn';
 import { useToggle } from '@/lib/hooks/useToggle';
 
 const Home: FC = () => {
@@ -22,7 +21,6 @@ const Home: FC = () => {
                         1
                     </motion.div>
                 </div>
-                <Btn onClick={onToggle}>Afficher / Masquer</Btn>
             </div>
         </div>
     );
